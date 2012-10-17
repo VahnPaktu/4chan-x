@@ -1710,11 +1710,29 @@
       return $('.board');
     },
     scroll: function(delta) {
-      var i, rect, thread, top, _ref, _ref1;
+      var i, link, rect, thread, top, _ref, _ref1;
       _ref = Nav.getThread(true), thread = _ref[0], i = _ref[1], rect = _ref[2];
       top = rect.top;
       if (!((delta === -1 && Math.ceil(top) < 0) || (delta === +1 && top > 1))) {
         i += delta;
+      }
+      if (i === -1) {
+        if (g.PAGENUM === 0) {
+          window.scrollTo(0, 0);
+        } else {
+          if (link = $('link[rel=prev]', d.head)) {
+            window.location.href = link.href;
+          }
+        }
+        return;
+      }
+      if (delta === +1) {
+        if (i >= Nav.threads.length || (innerHeight + pageYOffset >= d.body.scrollHeight)) {
+          if (link = $('link[rel=next]', d.head)) {
+            window.location = link.href;
+          }
+          return;
+        }
       }
       top = (_ref1 = Nav.threads[i]) != null ? _ref1.getBoundingClientRect().top : void 0;
       return window.scrollBy(0, top);
@@ -5107,6 +5125,8 @@
       if (temp === 'res') {
         g.REPLY = true;
         g.THREAD_ID = pathname[2];
+      } else {
+        g.PAGENUM = parseInt(temp) || 0;
       }
       for (key in Conf) {
         val = Conf[key];

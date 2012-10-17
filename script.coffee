@@ -1328,6 +1328,19 @@ Nav =
     unless (delta is -1 and Math.ceil(top) < 0) or (delta is +1 and top > 1)
       i += delta
 
+    if i is -1
+        if g.PAGENUM is 0
+            window.scrollTo 0, 0
+        else
+            if link = $ 'link[rel=prev]', d.head
+                window.location.href = link.href
+        return
+    if delta is +1
+        if i >= Nav.threads.length or (innerHeight + pageYOffset >= d.body.scrollHeight)
+            if link = $ 'link[rel=next]', d.head
+                window.location = link.href
+            return
+    
     {top} = Nav.threads[i]?.getBoundingClientRect()
     window.scrollBy 0, top
 
@@ -4111,6 +4124,8 @@ Main =
     if temp is 'res'
       g.REPLY = true
       g.THREAD_ID = pathname[2]
+    else
+        g.PAGENUM = parseInt(temp) or 0
 
     # Load values from localStorage.
     for key, val of Conf

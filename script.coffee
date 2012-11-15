@@ -1151,11 +1151,11 @@ Keybinds =
       when Conf.zero
         window.location = "/#{g.BOARD}/0#delform"
       when Conf.nextPage
-        if link = $ 'link[rel=next]', d.head
-          window.location = link.href
+        if button = $ "input[value=Next]", d
+            button.click()
       when Conf.previousPage
-        if link = $ 'link[rel=prev]', d.head
-          window.location.href = link.href
+        if button = $ "input[value=Previous]", d
+            button.click()
       # Thread Navigation
       when Conf.nextThread
         return if g.REPLY
@@ -1332,13 +1332,13 @@ Nav =
         if g.PAGENUM is 0
             window.scrollTo 0, 0
         else
-            if link = $ 'link[rel=prev]', d.head
-                window.location.href = link.href
+            if button = $ "input[value=Previous]", d
+                button.click()
         return
     if delta is +1
         if i >= Nav.threads.length or (innerHeight + pageYOffset >= d.body.scrollHeight)
-            if link = $ 'link[rel=next]', d.head
-                window.location = link.href
+            if button = $ "input[value=Next]", d
+                button.click()
             return
     
     {top} = Nav.threads[i]?.getBoundingClientRect()

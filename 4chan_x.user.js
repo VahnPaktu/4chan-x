@@ -1388,7 +1388,7 @@
       return $.on(d, 'keydown', Keybinds.keydown);
     },
     keydown: function(e) {
-      var key, link, o, target, thread;
+      var button, key, o, target, thread;
       if (!(key = Keybinds.keyCode(e))) {
         return;
       }
@@ -1455,13 +1455,13 @@
           window.location = "/" + g.BOARD + "/0#delform";
           break;
         case Conf.nextPage:
-          if (link = $('link[rel=next]', d.head)) {
-            window.location = link.href;
+          if (button = $("input[value=Next]", d)) {
+            button.click();
           }
           break;
         case Conf.previousPage:
-          if (link = $('link[rel=prev]', d.head)) {
-            window.location.href = link.href;
+          if (button = $("input[value=Previous]", d)) {
+            button.click();
           }
           break;
         case Conf.nextThread:
@@ -1710,7 +1710,7 @@
       return $('.board');
     },
     scroll: function(delta) {
-      var i, link, rect, thread, top, _ref, _ref1;
+      var button, i, rect, thread, top, _ref, _ref1;
       _ref = Nav.getThread(true), thread = _ref[0], i = _ref[1], rect = _ref[2];
       top = rect.top;
       if (!((delta === -1 && Math.ceil(top) < 0) || (delta === +1 && top > 1))) {
@@ -1720,16 +1720,16 @@
         if (g.PAGENUM === 0) {
           window.scrollTo(0, 0);
         } else {
-          if (link = $('link[rel=prev]', d.head)) {
-            window.location.href = link.href;
+          if (button = $("input[value=Previous]", d)) {
+            button.click();
           }
         }
         return;
       }
       if (delta === +1) {
         if (i >= Nav.threads.length || (innerHeight + pageYOffset >= d.body.scrollHeight)) {
-          if (link = $('link[rel=next]', d.head)) {
-            window.location = link.href;
+          if (button = $("input[value=Next]", d)) {
+            button.click();
           }
           return;
         }
